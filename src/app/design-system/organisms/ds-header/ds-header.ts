@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { interval, startWith } from 'rxjs';
-import { APP_ENV } from '../../../core/env/app-env.generated';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'ds-header',
@@ -11,7 +11,7 @@ import { APP_ENV } from '../../../core/env/app-env.generated';
   templateUrl: './ds-header.html',
 })
 export class DsHeader {
-  readonly companyName = APP_ENV.companyName;
+  readonly appName = environment.appName;
 
   private readonly platformId = inject(PLATFORM_ID);
 
