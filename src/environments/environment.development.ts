@@ -4,7 +4,8 @@ export const environment = {
     authApiUrl: '',
     appName: 'DS Enterprise',
     assets:{
-      logo:'',
+        logoProduto:'assets/logosmartpdv.jpeg',
+        logoTheOne:'assets/logotheone.jpeg',
       ilustrations:'',
     },
     company:{

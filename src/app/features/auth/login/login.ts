@@ -5,14 +5,16 @@ import { DsInputComponent } from '../../../design-system/atoms/ds-input/ds-input
 import { DsButtonComponent } from '../../../design-system/atoms/ds-button/ds-button';
 import { DsFormFieldComponent } from '../../../design-system/molecules/ds-form-field/ds-form-field';
 import { AuthService } from '../../../core/services/auth.service';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'ds-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DsInputComponent, DsButtonComponent, DsFormFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, DsInputComponent, DsButtonComponent, DsFormFieldComponent],
   templateUrl: './login.html',
 })
 export class Login {
+  readonly env = environment;
 
   private authService = inject(AuthService);
   private router = inject(Router)

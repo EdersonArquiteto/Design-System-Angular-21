@@ -4,13 +4,16 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validatio
 import { DsInputComponent } from '../../../design-system/atoms/ds-input/ds-input';
 import { DsButtonComponent } from '../../../design-system/atoms/ds-button/ds-button';
 import { DsFormFieldComponent } from '../../../design-system/molecules/ds-form-field/ds-form-field';
+import { RouterLink } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'ds-register',
-  imports: [CommonModule, ReactiveFormsModule, DsInputComponent, DsButtonComponent, DsFormFieldComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, DsInputComponent, DsButtonComponent, DsFormFieldComponent],
   templateUrl: './register.html',
 })
 export class Register {
+  readonly env = environment;
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
