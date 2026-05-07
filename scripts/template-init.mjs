@@ -13,11 +13,13 @@ Opções:
   --name        Nome exibido no header (NG_APP_COMPANY_NAME) e no README
   --slug        Nome do package (default: slug do --name)
   --force       Sobrescreve .env se já existir
+  --skip-folder-rename  Não renomeia a pasta do projeto
 
 Exemplos:
   npm run template:init -- --name "Vision Bank"
   npm run template:init -- --name "Vision Bank" --slug vision-bank
   npm run template:init -- --name "Vision Bank" --force
+  npm run template:init -- --name "Vision Bank" --skip-folder-rename
 `);
 }
 
@@ -31,7 +33,7 @@ function parseArgs(argv) {
     }
     const key = a.slice(2);
     const next = argv[i + 1];
-    const isBool = key === 'force' || key === 'help';
+    const isBool = key === 'force' || key === 'help' || key === 'skip-folder-rename';
     if (isBool) {
       args[key] = true;
       continue;
@@ -53,6 +55,12 @@ function slugify(input) {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+}
+
+function folderSafeName(input) {
+  // Windows inválidos: < > : " / \ | ? *
+  const cleaned = input.replace(/[<>:"/\\|?*]/g, '-').trim();
+  return cleaned || 'app';
 }
 
 function readJson(filePath) {
@@ -109,6 +117,7 @@ function main() {
   ensureFileExists(envExamplePath, '.env.example');
 
   const slug = (args.slug ?? slugify(name)) || 'app';
+  const targetFolderName = folderSafeName(name);
 
   // package.json
   const pkg = readJson(pkgPath);
@@ -146,6 +155,47 @@ function main() {
   console.log(`Template inicializado.`);
   console.log(`- package: ${slug}`);
   console.log(`- company: ${name}`);
+
+  // Rename folder (best effort)
+  if (!args['skip-folder-rename']) {
+    const currentFolderPath = repoRoot;
+    const parent = path.dirname(currentFolderPath);
+    const targetFolderPath = path.join(parent, targetFolderName);
+
+    if (path.resolve(currentFolderPath) !== path.resolve(targetFolderPath)) {
+      if (fs.existsSync(targetFolderPath)) {
+        console.log(`Pasta alvo já existe: ${targetFolderPath}`);
+        console.log(`- Pulando rename da pasta para evitar sobrescrita.`);
+      } else {
+        try {
+          // Important: move out of the folder before renaming (Windows)
+          process.chdir(parent);
+          fs.renameSync(currentFolderPath, targetFolderPath);
+          console.log(`Pasta renomeada para: ${targetFolderName}`);
+          console.log(`Agora entre na pasta e continue:`);
+          console.log(`- cd "${targetFolderName}"`);
+        } catch (e) {
+          console.log(
+            `Não consegui renomear a pasta automaticamente (Windows pode bloquear).`,
+          );
+          console.log(`Fallback seguro: vou copiar o projeto para a nova pasta.`);
+          try {
+            process.chdir(parent);
+            fs.cpSync(currentFolderPath, targetFolderPath, { recursive: true });
+            console.log(`Projeto copiado para: ${targetFolderPath}`);
+            console.log(`Você pode apagar a pasta antiga manualmente depois.`);
+            console.log(`Agora entre na pasta:`);
+            console.log(`- cd "${targetFolderName}"`);
+          } catch (copyErr) {
+            console.log(`Falhou também ao copiar para nova pasta.`);
+            console.log(`Renomeie manualmente a pasta do projeto para: ${targetFolderName}`);
+            throw copyErr;
+          }
+        }
+      }
+    }
+  }
+
   console.log(`Próximo passo: npm install (se necessário) e npm start`);
 }
 
