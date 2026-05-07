@@ -2,6 +2,11 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./features/public/landing/landing').then((m) => m.LandingComponent),
+  },
+  {
     path: 'login',
     loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
   },
@@ -18,11 +23,11 @@ export const routes: Routes = [
     path: 'dashboard',
     loadComponent: () =>
       import('./features/dashboard/dashboard-layout/dashboard-layout').then((m) => m.DashboardLayout),
+    canActivate: [() => import('./core/auth/auth.guard').then((m) => m.authGuard)],
     children: [
       { path: 'home', loadComponent: () => import('./features/dashboard/dashboard-home/dashboard-home').then((m) => m.DashboardHomeComponent) },
       { path: '', pathMatch: 'full', redirectTo: 'home' },
     ],
   },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
