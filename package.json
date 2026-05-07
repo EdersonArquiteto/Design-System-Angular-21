@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "env:sync": "node scripts/sync-env.mjs",
+    "template:init": "node scripts/template-init.mjs",
     "prestart": "node scripts/sync-env.mjs",
     "prebuild": "node scripts/sync-env.mjs",
     "start": "ng serve",

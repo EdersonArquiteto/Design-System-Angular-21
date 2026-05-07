@@ -33,6 +33,23 @@ Projeto de **Design System (Atomic Design)** com **dashboard SSR** em Angular, f
 npm install
 ```
 
+## Usar este repositório como TEMPLATE (starter oficial)
+
+Para iniciar um novo projeto/cliente a partir deste repositório, rode:
+
+```bash
+npm run template:init -- --name "Cliente X"
+```
+
+O script:
+- Atualiza `package.json` (nome do package via slug do nome)
+- Atualiza `.env.example` e (opcionalmente) cria/atualiza `.env` com `NG_APP_COMPANY_NAME`
+- Atualiza o título do `README.md`
+
+Dicas para times:
+- Se já existir `.env`, o script **não sobrescreve** (use `--force` se quiser).
+- Após inicializar: rode `npm start` e `npm run storybook` para validar rápido.
+
 ### Variáveis de ambiente (nome da empresa no Header)
 
 Crie `.env` na raiz usando o modelo `.env.example`:
