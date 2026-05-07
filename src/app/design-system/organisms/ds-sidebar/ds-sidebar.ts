@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 type SidebarItem = {
   label: string;
@@ -15,6 +16,7 @@ type SidebarItem = {
 })
 export class DsSidebar {
   readonly isCollapsed = signal(false);
+  readonly appName = environment.appName;
 
   /** Itens principais — estilo próximo a dashboards enterprise (linhas finas, alto contraste). */
   readonly items: SidebarItem[] = [
