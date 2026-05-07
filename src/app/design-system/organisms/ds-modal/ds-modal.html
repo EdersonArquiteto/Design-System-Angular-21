@@ -1,0 +1,9 @@
+<div class="bg-slate-900/90 backdrop-blur-2xl border border-white/10 p-8 rounded-[2.5rem] max-w-lg w-screen shadow-2xl animate-in zoom-in-95 duration-300">
+    <h2 class="text-2xl font-bold text-white mb-2">{{ data.title }}</h2>
+    <p class="text-slate-400 mb-8">{{ data.message }}</p>
+    
+    <div class="flex justify-end gap-3">
+      <button ds-button class="ghost" (click)="dialogRef.close()">Cancelar</button>
+      <button ds-button class="primary" (click)="dialogRef.close(true)">Confirmar</button>
+    </div>
+  </div>

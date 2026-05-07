@@ -29,6 +29,9 @@ yarn-error.log
 !.vscode/mcp.json
 .history/*
 
+# Local env (use .env.example como modelo)
+.env
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
@@ -42,3 +45,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+*storybook.log
+storybook-static

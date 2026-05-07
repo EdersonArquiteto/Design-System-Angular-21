@@ -1,0 +1,42 @@
+<div class="w-full">
+    <div class="flex items-center justify-between mb-12 relative">
+      <div class="absolute top-1/2 left-0 w-full h-0.5 bg-white/10 -translate-y-1/2 z-0"></div>
+      <div class="absolute top-1/2 left-0 h-0.5 bg-blue-500 -translate-y-1/2 z-0 transition-all duration-500"
+           [style.width.%]="progressWidth()"></div>
+
+      @for (step of steps; track $index) {
+        <div class="relative z-10 flex flex-col items-center gap-2">
+          <div [ngClass]="{
+            'bg-blue-500 border-blue-400 text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]': currentStep() >= $index,
+            'bg-slate-900 border-white/10 text-slate-500': currentStep() < $index
+          }" class="w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold transition-all duration-500 backdrop-blur-xl">
+            @if (currentStep() > $index) {
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
+            } @else {
+              {{ $index + 1 }}
+            }
+          </div>
+          <span class="absolute -bottom-8 whitespace-nowrap text-xs font-medium uppercase tracking-tighter"
+                [class.text-blue-400]="currentStep() >= $index"
+                [class.text-slate-500]="currentStep() < $index">
+            {{ step.label }}
+          </span>
+        </div>
+      }
+    </div>
+
+    <div class="mt-16 p-8 rounded-[2.5rem] bg-white/[0.02] border border-white/10 backdrop-blur-3xl min-h-[300px] animate-in fade-in slide-in-from-right-4 duration-500">
+      <ng-content></ng-content>
+    </div>
+
+    <div class="flex justify-between mt-8">
+      <button (click)="prev()" [disabled]="currentStep() === 0" 
+              class="px-6 py-2 rounded-xl border border-white/10 text-slate-400 hover:bg-white/5 disabled:opacity-30 transition-all">
+        Anterior
+      </button>
+      <button (click)="next()" 
+              class="px-8 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-30 shadow-lg shadow-blue-500/20 transition-all">
+        {{ currentStep() === steps.length - 1 ? 'Finalizar' : 'Próximo' }}
+      </button>
+    </div>
+  </div>

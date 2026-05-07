@@ -1,0 +1,32 @@
+<div class="flex flex-col gap-1.5 w-full relative">
+    <label *ngIf="label" class="text-sm font-medium text-slate-300 ml-1">{{ label }}</label>
+    
+    <input
+      cdkOverlayOrigin
+      #trigger="cdkOverlayOrigin"
+      [value]="displayValue()"
+      (input)="onTyping($event)"
+      (focus)="isPanelOpen.set(true)"
+      [placeholder]="placeholder"
+      class="w-full bg-white/5 border border-white/10 backdrop-blur-xl rounded-xl px-4 py-3 
+             text-white outline-none transition-all duration-300 focus:border-blue-500/50"
+    />
+
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="trigger"
+      [cdkConnectedOverlayOpen]="isPanelOpen() && filteredOptions().length > 0"
+      (overlayOutsideClick)="isPanelOpen.set(false)"
+    >
+      <ul class="bg-slate-900/90 backdrop-blur-2xl border border-white/10 rounded-xl mt-2 
+                 shadow-2xl max-h-60 overflow-y-auto w-[var(--trigger-width)] animate-in fade-in zoom-in-95 duration-200">
+        <li 
+          *ngFor="let option of filteredOptions()"
+          (click)="selectOption(option)"
+          class="px-4 py-3 text-slate-300 hover:bg-blue-600 hover:text-white cursor-pointer transition-colors border-b border-white/5 last:border-none"
+        >
+          {{ option.label }}
+        </li>
+      </ul>
+    </ng-template>
+  </div>

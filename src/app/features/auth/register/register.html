@@ -1,0 +1,33 @@
+<div class="min-h-screen flex items-center justify-center bg-slate-950 p-6">
+    <div class="w-full max-w-lg bg-white/[0.02] backdrop-blur-3xl border border-white/10 p-10 rounded-[2.5rem]">
+      
+      <h2 class="text-3xl font-bold text-white mb-6">Criar nova conta</h2>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <ds-form-field class="md:col-span-2">
+          <ds-input label="Nome Completo" formControlName="name" placeholder="Ex: João Silva"></ds-input>
+        </ds-form-field>
+
+        <ds-form-field class="md:col-span-2" [error]="emailError">
+          <ds-input label="E-mail" type="email" formControlName="email" placeholder="seu@email.com"></ds-input>
+        </ds-form-field>
+
+        <ds-form-field [error]="registerForm.get('password')?.touched && registerForm.get('password')?.invalid ? 'Senha fraca' : null">
+          <ds-input label="Senha" type="password" formControlName="password" placeholder="••••••"></ds-input>
+        </ds-form-field>
+
+        <ds-form-field [error]="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched ? 'As senhas não coincidem' : null">
+          <ds-input label="Confirmar Senha" type="password" formControlName="confirmPassword" placeholder="••••••"></ds-input>
+        </ds-form-field>
+
+        <button ds-button class="primary md:col-span-2 mt-4 py-4">
+          Registrar Agora
+        </button>
+      </form>
+
+      <p class="text-center mt-6 text-slate-400">
+        Já tem conta? <a href="/auth/login" class="text-blue-400">Voltar ao login</a>
+      </p>
+    </div>
+  </div>

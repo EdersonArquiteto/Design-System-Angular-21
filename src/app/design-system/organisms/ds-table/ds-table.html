@@ -1,0 +1,84 @@
+<div class="space-y-4">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div class="max-w-xs">
+        <ds-input placeholder="Filtrar dados..." (input)="onFilter($event)"></ds-input>
+      </div>
+
+      <div class="inline-flex items-center gap-2 text-xs text-slate-400">
+        <span>Itens por página</span>
+        <select
+          class="rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2 text-sm text-slate-200 backdrop-blur-xl transition hover:bg-white/[0.06] focus:outline-none focus:ring-2 focus:ring-blue-500/60"
+          [value]="pageSize"
+          (change)="onPageSizeChange($event)"
+          aria-label="Itens por página"
+        >
+          <option *ngFor="let s of pageSizeOptions" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="text-xs text-slate-500">
+      {{ totalItems() }} item(ns) · Página {{ currentPage() }} de {{ totalPages() }}
+    </div>
+  </div>
+
+  <div class="w-full overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.02] backdrop-blur-3xl">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-white/10 bg-white/[0.02]">
+          <th *ngFor="let col of columns" 
+              (click)="toggleSort(col.key)"
+              [class.cursor-pointer]="col.sortable"
+              class="px-6 py-4 text-sm font-semibold text-slate-300 uppercase">
+            <div class="flex items-center gap-2">
+              {{ col.label }}
+              <i *ngIf="col.sortable" class="fas fa-sort text-xs opacity-50"></i>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of pagedData()" class="hover:bg-white/[0.03] transition-colors group">
+          <td *ngFor="let col of columns" class="px-6 py-4 text-slate-300 text-sm">
+            {{ row[col.key] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+    <div class="inline-flex items-center gap-2">
+      <button
+        type="button"
+        class="rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2 text-sm text-slate-300 backdrop-blur-xl transition hover:bg-white/[0.06] disabled:opacity-40"
+        (click)="prevPage()"
+        [disabled]="currentPage() <= 1"
+      >
+        Anterior
+      </button>
+
+      <button
+        *ngFor="let p of pageNumbers()"
+        type="button"
+        class="min-w-10 rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2 text-sm text-slate-300 backdrop-blur-xl transition hover:bg-white/[0.06]"
+        [class.!bg-blue-600]="p === currentPage()"
+        [class.!border-blue-500/40]="p === currentPage()"
+        [class.!text-white]="p === currentPage()"
+        (click)="goToPage(p)"
+      >
+        {{ p }}
+      </button>
+
+      <button
+        type="button"
+        class="rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2 text-sm text-slate-300 backdrop-blur-xl transition hover:bg-white/[0.06] disabled:opacity-40"
+        (click)="nextPage()"
+        [disabled]="currentPage() >= totalPages()"
+      >
+        Próximo
+      </button>
+    </div>
+  </div>
+</div>

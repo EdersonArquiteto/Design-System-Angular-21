@@ -1,0 +1,11 @@
+<div class="fixed bottom-8 right-8 z-[100] flex flex-col gap-3">
+    @for (toast of toastService.toasts(); track toast.id) {
+      <div [ngClass]="{
+        'bg-green-500/20 border-green-500/50 text-green-200': toast.type === 'success',
+        'bg-red-500/20 border-red-500/50 text-red-200': toast.type === 'error',
+        'bg-blue-500/20 border-blue-500/50 text-blue-200': toast.type === 'info'
+      }" class="px-6 py-4 rounded-2xl border backdrop-blur-xl shadow-2xl animate-in slide-in-from-right duration-300">
+        {{ toast.message }}
+      </div>
+    }
+  </div>

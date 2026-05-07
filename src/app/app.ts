@@ -1,12 +1,14 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'ds-root',
+  selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  template: `
+    <main class="min-h-screen bg-slate-950">
+      <router-outlet></router-outlet>
+    </main>
+  `,
 })
-export class App {
-  protected readonly title = signal('ds-vision');
-}
+export class AppComponent {}

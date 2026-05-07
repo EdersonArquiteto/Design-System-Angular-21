@@ -1,0 +1,35 @@
+<header
+  class="sticky top-0 z-40 flex h-[4.5rem] items-center justify-between border-b border-white/10 bg-white/[0.06] px-6 backdrop-blur-xl md:px-8"
+>
+  <div class="flex min-w-0 flex-1 flex-col gap-0.5 md:flex-row md:items-baseline md:gap-3">
+    <span
+      class="truncate text-xl font-bold tracking-tight text-white md:text-2xl"
+      [attr.title]="companyName"
+    >
+      {{ companyName }}
+    </span>
+    <span class="hidden text-slate-500 md:inline">·</span>
+    <span class="text-xs font-medium uppercase tracking-[0.2em] text-slate-400 md:text-sm md:normal-case md:tracking-normal">
+      Painel
+    </span>
+  </div>
+
+  <div class="flex flex-shrink-0 flex-col items-end gap-1 md:flex-row md:items-center md:gap-6">
+    <time
+      class="font-mono text-xs text-slate-300 tabular-nums md:text-sm"
+      [attr.datetime]="brasiliaDateTime()"
+    >
+      {{ brasiliaDateTime() }}
+    </time>
+    <div class="flex items-center gap-3">
+      <div class="hidden flex-col text-right sm:flex">
+        <span class="text-sm font-medium text-white">Operador</span>
+        <span class="text-xs text-slate-500">Admin</span>
+      </div>
+      <div
+        class="h-10 w-10 shrink-0 rounded-full border border-white/20 bg-gradient-to-tr from-blue-500 to-violet-500 shadow-lg ring-2 ring-white/10"
+        aria-hidden="true"
+      ></div>
+    </div>
+  </div>
+</header>

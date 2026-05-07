@@ -1,59 +1,115 @@
-# DsVision
+# DS Vision — Design System + Dashboard (Angular + Tailwind)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
+Projeto de **Design System (Atomic Design)** com **dashboard SSR** em Angular, foco em **UI moderna (glassmorphism)**, **reutilização** e **documentação visual com Storybook**.
 
-## Development server
+> Portfólio: este repositório foi estruturado para demonstrar **arquitetura**, **componentização** e **documentação** de um sistema de UI real.
 
-To start a local development server, run:
+## O que você encontra aqui
 
-```bash
-ng serve
-```
+- **Angular 21** com **SSR** (`@angular/ssr`)
+- **Tailwind CSS** (tokens + utilitários) e estilo glassmorphism
+- **Design System** em camadas (`atoms/`, `molecules/`, `organisms/`)
+- **Storybook** com stories para os componentes (documentação visual)
+- **Rotas**: `/login`, `/register`, `/forgot-password`, `/dashboard/home`
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Stack
 
-## Code scaffolding
+- **Angular**: 21.x (standalone components + signals)
+- **SSR**: `@angular/ssr`
+- **Tailwind**: 3.x
+- **Storybook**: 10.x (`@storybook/angular`)
+- **Charts**: `chart.js`
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Rodando localmente
 
-```bash
-ng generate component component-name
-```
+### Pré‑requisitos
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Node.js 20+ (você está usando Node 22, ok)
+- npm 10+
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Instalação
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
+### Variáveis de ambiente (nome da empresa no Header)
 
-For end-to-end (e2e) testing, run:
+Crie `.env` na raiz usando o modelo `.env.example`:
 
 ```bash
-ng e2e
+NG_APP_COMPANY_NAME=Vision
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+O projeto usa um passo **build-time** que gera `src/app/core/env/app-env.generated.ts` automaticamente:
+- roda em `prestart` e `prebuild`
+- script: `node scripts/sync-env.mjs`
 
-## Additional Resources
+### Dev server
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+npm start
+```
+
+Acesse `http://localhost:4200`.
+
+### Build
+
+```bash
+npm run build
+```
+
+### SSR (após build)
+
+```bash
+npm run serve:ssr:ds-vision
+```
+
+## Storybook (documentação visual)
+
+Rodar Storybook:
+
+```bash
+npm run storybook
+```
+
+Depois, acesse:
+
+- `http://localhost:6006`
+
+Gerar build estático:
+
+```bash
+npm run build-storybook
+```
+
+## Documentação (guia de uso)
+
+Você pode ler os guias diretamente no repositório:
+
+- **Quando usar cada componente**: `docs/WHEN_TO_USE.md`
+- **Design Molecular (teoria + exemplo de formulário)**: `docs/MOLECULAR_DESIGN.md`
+
+Se preferir pelo terminal:
+
+```bash
+type docs\\WHEN_TO_USE.md
+type docs\\MOLECULAR_DESIGN.md
+```
+
+## Estrutura do projeto (alto nível)
+
+- `src/app/design-system/`
+  - `atoms/`: componentes base (Input, Button, Checkbox, etc.)
+  - `molecules/`: composições pequenas (FormField, MetricCard, etc.)
+  - `organisms/`: blocos grandes (Header, Sidebar, Table, etc.)
+  - `utils/`: base de CVA (`BaseFormControl`)
+- `src/app/features/`: páginas/rotas (auth, dashboard)
+- `docs/`: documentação do portfólio e guias de uso
+
+## Notas de qualidade (portfólio)
+
+- Componentes são **standalone** e orientados a **reuso**
+- Forms usam `ControlValueAccessor` via `BaseFormControl`
+- Estilo segue tokens em `src/styles.scss` + utilitários Tailwind
+

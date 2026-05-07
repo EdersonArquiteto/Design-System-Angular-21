@@ -1,0 +1,8 @@
+<div *ngIf="type === 'linear'" class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+    <div class="h-full bg-blue-500 transition-all duration-500" [style.width.%]="value"></div>
+  </div>
+
+  <div *ngIf="type === 'circular'" 
+       [ngClass]="sizeClasses[size]"
+       class="border-2 border-white/10 border-t-blue-500 rounded-full animate-spin">
+  </div>

@@ -1,0 +1,11 @@
+<div class="flex flex-col gap-1.5 w-full">
+    <label *ngIf="label" class="text-sm font-medium text-slate-300 ml-1">{{ label }}</label>
+    <textarea
+      [value]="value()"
+      [placeholder]="placeholder"
+      [rows]="rows"
+      (input)="onInput($event)"
+      class="w-full bg-white/5 border border-white/10 backdrop-blur-xl rounded-xl px-4 py-3 
+             text-white outline-none transition-all duration-300 focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10"
+    ></textarea>
+  </div>
