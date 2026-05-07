@@ -9,11 +9,6 @@
     [class.justify-center]="isCollapsed()"
     [class.justify-start]="!isCollapsed()"
   >
-    <div
-      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-red-600 to-red-900 text-sm font-black text-white shadow-inner ring-1 ring-white/15"
-    >
-      V
-    </div>
     @if (!isCollapsed()) {
       <div class="min-w-0 flex-1">
         <p class="truncate text-sm font-semibold tracking-tight text-white">{{ appName }}</p>
