@@ -38,13 +38,15 @@ export class Login {
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      console.log('Dados de Login:', this.loginForm.value);
-      //alert('Login realizado com sucesso! (Simulação)');
-      this.authService.login();
-      this.router.navigate(['/dashboard/home']);
-    } else {
+    if (!this.loginForm.valid) {
       this.loginForm.markAllAsTouched();
+      return;
     }
+    const { email, password } = this.loginForm.value;
+    this.authService
+      .login({ email: email!, password: password! })
+      .subscribe({
+        next: () => this.router.navigate(['/dashboard/home']),
+      });
   }
 }
