@@ -5,6 +5,7 @@ import { DsInputComponent } from '../../../design-system/atoms/ds-input/ds-input
 import { DsButtonComponent } from '../../../design-system/atoms/ds-button/ds-button';
 import { DsFormFieldComponent } from '../../../design-system/molecules/ds-form-field/ds-form-field';
 import { AuthService } from '../../../core/services/auth.service';
+import { ToastService } from '../../../core/services/toast.service';
 import {Router, RouterLink} from '@angular/router';
 import { environment } from '../../../../environments/environment';
 @Component({
@@ -17,7 +18,8 @@ export class Login {
   readonly env = environment;
 
   private authService = inject(AuthService);
-  private router = inject(Router)
+  private router = inject(Router);
+  private toast = inject(ToastService);
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)])
@@ -43,10 +45,17 @@ export class Login {
       return;
     }
     const { email, password } = this.loginForm.value;
-    this.authService
-      .login({ email: email!, password: password! })
-      .subscribe({
-        next: () => this.router.navigate(['/dashboard/home']),
-      });
+    this.authService.login({ email: email!, password: password! }).subscribe({
+      next: (auth) => {
+        if (!auth.accessToken) {
+          this.toast.show('Login não retornou token. Verifique a API ou o formato da resposta.', 'error');
+          return;
+        }
+        void this.router.navigate(['/dashboard/home']);
+      },
+      error: () => {
+        // Toast global já é exibido pelo errorInterceptor
+      },
+    });
   }
 }
